@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.di2win.bancodigital.enums.TipoTransacao;
-import com.di2win.bancodigital.exceptions.SaldoInsuficienteException;
+import com.di2win.bancodigital.exception.ClienteNotFoundException;
+import com.di2win.bancodigital.exception.SaldoInsuficienteException;
 import com.di2win.bancodigital.model.Cliente;
 import com.di2win.bancodigital.model.Conta;
 import com.di2win.bancodigital.model.Transacao;
@@ -18,7 +19,11 @@ import com.di2win.bancodigital.repository.ContaRepository;
 import com.di2win.bancodigital.repository.TransacaoRepository;
 
 @Service
-public class ContaService {
+public class ContaService implements IContaService {
+
+  private static final BigDecimal LIMITE_DIARIO_DEFAULT = BigDecimal.valueOf(2000);
+  private static final int NUMERO_CONTA_TAMANHO = 7;
+  private static final int NUMERO_AGENCIA_TAMANHO = 4;
 
   @Autowired
   private ContaRepository contaRepository;
@@ -30,22 +35,32 @@ public class ContaService {
 
   private final Random random = new Random();
 
-  public Conta createConta(Conta conta, String cpf, BigDecimal limiteDiario) {
+  public Conta create(Conta conta, String cpf, BigDecimal limiteDiario) {
+    Cliente cliente = obterCliente(cpf);
+    String numeroConta = gerarNumeroUnico(NUMERO_CONTA_TAMANHO);
+    String agencia = gerarNumeroUnico(NUMERO_AGENCIA_TAMANHO);
+    limiteDiario = limiteDiario != null ? limiteDiario : LIMITE_DIARIO_DEFAULT;
+    Conta novaConta = construirConta(cliente, numeroConta, agencia, limiteDiario);
+
+    return contaRepository.save(novaConta);
+  }
+
+  private Cliente obterCliente(String cpf) {
     Cliente cliente = clienteRepository.findByCpf(cpf);
     if (cliente == null) {
-      throw new IllegalArgumentException("Não foi encontrado um cliente com o CPF fornecido.");
+      throw new ClienteNotFoundException("Não foi encontrado um cliente com o CPF fornecido.");
     }
-    String numeroConta = gerarNumeroUnico(7);
-    String agencia = gerarNumeroUnico(4);
-    if (limiteDiario == null) {
-      limiteDiario = BigDecimal.valueOf(1000);
-    }
-    conta.setLimiteDiario(limiteDiario);
-    conta.setSaldo(BigDecimal.ZERO);
-    conta.setNumero(numeroConta);
-    conta.setAgencia(agencia);
-    conta.setCliente(cliente);
-    return contaRepository.save(conta);
+    return cliente;
+  }
+
+  private Conta construirConta(Cliente cliente, String numeroConta, String agencia, BigDecimal limiteDiario) {
+    return Conta.builder()
+                .limiteDiario(limiteDiario)
+                .saldo(BigDecimal.ZERO)
+                .numero(numeroConta)
+                .agencia(agencia)
+                .cliente(cliente)
+                .build();
   }
 
   private String gerarNumeroUnico(int digitos) {
@@ -65,12 +80,12 @@ public class ContaService {
     return numero.toString();
   }
 
-  public Conta findConta(Long id) {
+  public Conta find(Long id) {
     return contaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Conta não encontrada."));
   }
 
   public Conta depositar(Long id, BigDecimal valor) {
-    Conta conta = findConta(id);
+    Conta conta = find(id);
     if (conta.isBloqueada()) {
       throw new IllegalArgumentException("Conta está bloqueada.");
     }
@@ -78,11 +93,12 @@ public class ContaService {
     conta.setSaldo(conta.getSaldo().add(valor));
     Conta contaAtualizada = contaRepository.save(conta);
 
-    Transacao transacao = new Transacao();
-    transacao.setConta(contaAtualizada);
-    transacao.setValor(valor);
-    transacao.setTipo(TipoTransacao.DEPOSITO);
-    transacao.setDataHora(LocalDateTime.now());
+    Transacao transacao = Transacao.builder()
+                            .conta(contaAtualizada)
+                            .valor(valor)
+                            .tipo(TipoTransacao.DEPOSITO)
+                            .dataHora(LocalDateTime.now())
+                            .build();
 
     transacaoRepository.save(transacao);
 
@@ -90,7 +106,7 @@ public class ContaService {
   }
 
   public Conta sacar(Long id, BigDecimal valor) {
-    Conta conta = findConta(id);
+    Conta conta = find(id);
     if (conta.isBloqueada()) {
       throw new IllegalArgumentException("Conta está bloqueada.");
     }
@@ -111,19 +127,20 @@ public class ContaService {
     conta.setSaldo(conta.getSaldo().subtract(valor));
     Conta contaAtualizada = contaRepository.save(conta);
 
-    Transacao transacao = new Transacao();
-    transacao.setConta(contaAtualizada);
-    transacao.setValor(valor);
-    transacao.setTipo(TipoTransacao.SAQUE);
-    transacao.setDataHora(LocalDateTime.now());
+    Transacao transacao = Transacao.builder()
+                            .conta(contaAtualizada)
+                            .valor(valor)
+                            .tipo(TipoTransacao.SAQUE)
+                            .dataHora(LocalDateTime.now())
+                            .build();
 
     transacaoRepository.save(transacao);
 
     return contaAtualizada;
   }
 
-  public void bloquearConta(Long id) {
-    Conta conta = findConta(id);
+  public void bloquear(Long id) {
+    Conta conta = find(id);
     conta.setBloqueada(true);
     contaRepository.save(conta);
   }

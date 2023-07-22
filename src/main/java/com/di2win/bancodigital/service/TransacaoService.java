@@ -14,7 +14,7 @@ import com.di2win.bancodigital.model.Transacao;
 import com.di2win.bancodigital.repository.TransacaoRepository;
 
 @Service
-public class TransacaoService {
+public class TransacaoService implements ITransacaoService {
 
   @Autowired
   private TransacaoRepository transacaoRepository;

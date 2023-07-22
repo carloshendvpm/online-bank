@@ -32,16 +32,16 @@ public class ContaController {
     private TransacaoService transacaoService;
 
     @PostMapping
-    public ResponseEntity<Conta> createConta(@RequestBody ContaDTO contaDTO) {
+    public ResponseEntity<Conta> create(@RequestBody ContaDTO contaDTO) {
       Conta novaConta = new Conta();
-      Conta conta = contaService.createConta(novaConta, contaDTO.getCpf(), contaDTO.getLimiteDiario());
+      Conta conta = contaService.create(novaConta, contaDTO.getCpf(), contaDTO.getLimiteDiario());
       return ResponseEntity.ok(conta);
     }
 
 
     @GetMapping("/{id}/saldo")
     public BigDecimal getSaldo(@PathVariable Long id) {
-        return contaService.findConta(id).getSaldo();
+        return contaService.find(id).getSaldo();
     }
 
     @PostMapping("/{id}/depositar")
@@ -57,8 +57,8 @@ public class ContaController {
     }
 
     @PostMapping("/{id}/bloquear")
-    public ResponseEntity<Void> bloquearConta(@PathVariable Long id) {
-      contaService.bloquearConta(id);
+    public ResponseEntity<Void> bloquear(@PathVariable Long id) {
+      contaService.bloquear(id);
       return ResponseEntity.noContent().build();
     }
 

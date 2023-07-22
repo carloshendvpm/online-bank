@@ -24,11 +24,11 @@ public class ClienteController {
   @PostMapping
   public ResponseEntity<Cliente> criarCliente(@RequestBody ClienteDTO clienteDTO) {
     Cliente novoCliente = new Cliente(clienteDTO.getNome(), clienteDTO.getCpf(), clienteDTO.getDataNascimento());
-    Cliente cliente = clienteService.createCliente(novoCliente);
+    Cliente cliente = clienteService.create(novoCliente);
     return ResponseEntity.ok(cliente);
   }
   @GetMapping
-  public List<Cliente> getAllClientes() {
-    return clienteService.getAllClientes();
+  public List<Cliente> getAll() {
+    return clienteService.getAll();
   }
 }
