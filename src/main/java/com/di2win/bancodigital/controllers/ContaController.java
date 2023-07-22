@@ -3,6 +3,7 @@ package com.di2win.bancodigital.controllers;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,49 +27,69 @@ import com.di2win.bancodigital.service.TransacaoService;
 @RequestMapping("/contas")
 public class ContaController {
 
-    @Autowired
-    private ContaService contaService;
-    @Autowired
-    private TransacaoService transacaoService;
+  @Autowired
+  private ContaService contaService;
+  @Autowired
+  private TransacaoService transacaoService;
 
-    @PostMapping
-    public ResponseEntity<Conta> create(@RequestBody ContaDTO contaDTO) {
-      Conta novaConta = new Conta();
-      Conta conta = contaService.create(novaConta, contaDTO.getCpf(), contaDTO.getLimiteDiario());
-      return ResponseEntity.ok(conta);
-    }
+  @GetMapping
+  public ResponseEntity<List<ContaDTO>> getAllContas() {
+    List<Conta> contas = contaService.getAllContas();
+    List<ContaDTO> contaDTOs = contas.stream()
+        .map(this::convertToDTO)
+        .collect(Collectors.toList());
+    return ResponseEntity.ok(contaDTOs);
+  }
 
+  @PostMapping
+  public ResponseEntity<ContaDTO> create(@RequestBody ContaDTO contaDTO) {
+    Conta conta = contaService.create(contaDTO.getCpf(), contaDTO.getLimiteDiario());
+    ContaDTO createdContaDTO = convertToDTO(conta);
+    return ResponseEntity.ok(createdContaDTO);
+  }
 
-    @GetMapping("/{id}/saldo")
-    public BigDecimal getSaldo(@PathVariable Long id) {
-        return contaService.find(id).getSaldo();
-    }
+  private ContaDTO convertToDTO(Conta conta) {
+    ContaDTO dto = new ContaDTO();
+    dto.setId(conta.getId());
+    dto.setCpf(conta.getCliente().getCpf());
+    dto.setLimiteDiario(conta.getLimiteDiario());
+    dto.setSaldo(conta.getSaldo());
+    dto.setNomeDono(conta.getCliente().getNome());
+    return dto;
+  }
 
-    @PostMapping("/{id}/depositar")
-    public ResponseEntity<Conta> depositar(@PathVariable Long id, @RequestBody ValorTransacaoDTO valorTransacaoDTO) {
-      Conta conta = contaService.depositar(id, valorTransacaoDTO.getValor());
-      return ResponseEntity.ok(conta);
-    }
+  @GetMapping("/{id}/saldo")
+  public BigDecimal getSaldo(@PathVariable Long id) {
+    return contaService.find(id).getSaldo();
+  }
 
-    @PostMapping("/{id}/sacar")
-    public ResponseEntity<Conta> sacar(@PathVariable Long id, @RequestBody ValorTransacaoDTO valorTransacaoDTO) {
-      Conta conta = contaService.sacar(id, valorTransacaoDTO.getValor());
-      return ResponseEntity.ok(conta);
-    }
+  @PostMapping("/{id}/depositar")
+  public ResponseEntity<Conta> depositar(@PathVariable Long id, @RequestBody ValorTransacaoDTO valorTransacaoDTO) {
+    Conta conta = contaService.depositar(id, valorTransacaoDTO.getValor());
+    return ResponseEntity.ok(conta);
+  }
 
-    @PostMapping("/{id}/bloquear")
-    public ResponseEntity<Void> bloquear(@PathVariable Long id) {
-      contaService.bloquear(id);
-      return ResponseEntity.noContent().build();
-    }
+  @PostMapping("/{id}/sacar")
+  public ResponseEntity<Conta> sacar(@PathVariable Long id, @RequestBody ValorTransacaoDTO valorTransacaoDTO) {
+    Conta conta = contaService.sacar(id, valorTransacaoDTO.getValor());
+    return ResponseEntity.ok(conta);
+  }
 
-    @GetMapping("/{id}/extrato")
-    public List<Transacao> getExtrato(@PathVariable Long id) {
-        return transacaoService.getExtrato(id);
-    }
+  @PostMapping("/{id}/bloquear")
+  public ResponseEntity<Void> bloquear(@PathVariable Long id) {
+    contaService.bloquear(id);
+    return ResponseEntity.noContent().build();
+  }
 
-    @GetMapping("/{id}/extratoPorPeriodo")
-    public List<Transacao> getExtratoPorPeriodo(@PathVariable Long id, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate inicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) {
-      return transacaoService.getExtratoPorPeriodo(id, inicio, fim);
-    }
+  @GetMapping("/{id}/extrato")
+  public List<Transacao> getExtrato(@PathVariable Long id) {
+    return transacaoService.getExtrato(id);
+  }
+
+  @GetMapping("/{id}/extratoPorPeriodo")
+  public List<Transacao> getExtratoPorPeriodo(@PathVariable Long id,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate inicio,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) {
+    return transacaoService.getExtratoPorPeriodo(id, inicio, fim);
+  }
 }
