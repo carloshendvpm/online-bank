@@ -37,14 +37,4 @@ Siga os seguintes passos:
 
 Os endpoints da API estão documentados através do Swagger e podem ser acessados em `http://localhost:8080/swagger-ui.html` quando a aplicação estiver rodando.
 
-## Contribuições
 
-Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um Pull Request.
-
-## License
-
-Este projeto é licenciado sob os termos da licença MIT.
-
-## Contato
-
-Se você tem alguma dúvida, sugestão ou feedback, por favor, entre em contato. Eu ficaria muito feliz em ajudar!
