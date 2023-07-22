@@ -14,7 +14,7 @@ A API fornece os seguintes recursos:
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- **Java 11**: Linguagem de programação utilizada para o desenvolvimento do projeto.
+- **Java 17**: Linguagem de programação utilizada para o desenvolvimento do projeto.
 - **Spring Boot**: Framework usado para facilitar o setup e desenvolvimento de aplicações Spring.
 - **Spring Data JPA**: Usado para persistência de dados e facilitar operações de CRUD.
 - **Lombok**: Biblioteca Java que ajuda a reduzir a verbosidade do código.
