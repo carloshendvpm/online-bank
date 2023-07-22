@@ -39,7 +39,7 @@ public class Cliente {
   private String cpf;
 
   @DateTimeFormat(pattern = "dd/MM/yyyy")
-  @Column(nullable = false, name = "data_nascimento")
+  @Column(name = "data_nascimento")
   private LocalDate dataNascimento;
 
   @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

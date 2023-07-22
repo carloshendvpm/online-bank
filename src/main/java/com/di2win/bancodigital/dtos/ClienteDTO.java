@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ClienteDTO {
-  private String nome;
-  private String cpf;
-  private LocalDate dataNascimento;
+    private String nome;
+    private String cpf;
+    private LocalDate dataNascimento;
 }
