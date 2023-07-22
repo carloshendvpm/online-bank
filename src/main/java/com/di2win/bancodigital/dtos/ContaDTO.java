@@ -6,6 +6,9 @@ import lombok.Data;
 
 @Data
 public class ContaDTO {
+  private Long id;
   private String cpf;
   private BigDecimal limiteDiario;
+  private BigDecimal saldo;
+  private String nomeDono;
 }
