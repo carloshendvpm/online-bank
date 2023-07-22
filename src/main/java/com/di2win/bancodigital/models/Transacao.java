@@ -1,7 +1,7 @@
 package com.di2win.bancodigital.models;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.di2win.bancodigital.TipoTransacao;
 
@@ -21,7 +21,7 @@ public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDate dataHora;
+    private LocalDateTime dataHora;
     private BigDecimal valor;
     @Enumerated(EnumType.STRING)
     private TipoTransacao tipo;
