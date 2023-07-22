@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.services;
+package com.di2win.bancodigital.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,14 +8,14 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.di2win.bancodigital.TipoTransacao;
+import com.di2win.bancodigital.enums.TipoTransacao;
 import com.di2win.bancodigital.exceptions.SaldoInsuficienteException;
-import com.di2win.bancodigital.models.Cliente;
-import com.di2win.bancodigital.models.Conta;
-import com.di2win.bancodigital.models.Transacao;
-import com.di2win.bancodigital.repositories.ClienteRepository;
-import com.di2win.bancodigital.repositories.ContaRepository;
-import com.di2win.bancodigital.repositories.TransacaoRepository;
+import com.di2win.bancodigital.model.Cliente;
+import com.di2win.bancodigital.model.Conta;
+import com.di2win.bancodigital.model.Transacao;
+import com.di2win.bancodigital.repository.ClienteRepository;
+import com.di2win.bancodigital.repository.ContaRepository;
+import com.di2win.bancodigital.repository.TransacaoRepository;
 
 @Service
 public class ContaService {

@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.models;
+package com.di2win.bancodigital.model;
 
 import java.math.BigDecimal;
 

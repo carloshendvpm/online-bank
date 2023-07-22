@@ -1,9 +1,9 @@
-package com.di2win.bancodigital.models;
+package com.di2win.bancodigital.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.di2win.bancodigital.TipoTransacao;
+import com.di2win.bancodigital.enums.TipoTransacao;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

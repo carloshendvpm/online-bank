@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.services;
+package com.di2win.bancodigital.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,9 +9,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.di2win.bancodigital.TipoTransacao;
-import com.di2win.bancodigital.models.Transacao;
-import com.di2win.bancodigital.repositories.TransacaoRepository;
+import com.di2win.bancodigital.enums.TipoTransacao;
+import com.di2win.bancodigital.model.Transacao;
+import com.di2win.bancodigital.repository.TransacaoRepository;
 
 @Service
 public class TransacaoService {
@@ -33,7 +33,7 @@ public class TransacaoService {
       LocalDateTime fimDoDia = LocalDate.now().atTime(LocalTime.MAX);
       List<Transacao> saquesDoDia = transacaoRepository.findByContaIdAndTipoAndDataHoraBetween(contaId, TipoTransacao.SAQUE, inicioDoDia, fimDoDia);
       return saquesDoDia.stream()
-          .map(Transacao::getValor)
-          .reduce(BigDecimal.ZERO, BigDecimal::add);
+        .map(Transacao::getValor)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }

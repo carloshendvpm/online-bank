@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.di2win.bancodigital.dtos.ContaDTO;
 import com.di2win.bancodigital.dtos.ValorTransacaoDTO;
-import com.di2win.bancodigital.models.Conta;
-import com.di2win.bancodigital.models.Transacao;
-import com.di2win.bancodigital.services.ContaService;
-import com.di2win.bancodigital.services.TransacaoService;
+import com.di2win.bancodigital.model.Conta;
+import com.di2win.bancodigital.model.Transacao;
+import com.di2win.bancodigital.service.ContaService;
+import com.di2win.bancodigital.service.TransacaoService;
 
 @RestController
 @RequestMapping("/contas")

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.di2win.bancodigital.dtos.ClienteDTO;
-import com.di2win.bancodigital.models.Cliente;
-import com.di2win.bancodigital.services.ClienteService;
+import com.di2win.bancodigital.model.Cliente;
+import com.di2win.bancodigital.service.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
