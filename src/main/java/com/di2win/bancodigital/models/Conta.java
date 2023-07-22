@@ -29,17 +29,24 @@ public class Conta {
   private String agencia;
   private BigDecimal saldo;
   private boolean bloqueada;
+  @Column(nullable = false)
+  private BigDecimal limiteDiario;
 
   @ManyToOne
   @JoinColumn(name = "cliente_id")
   @JsonBackReference
   private Cliente cliente;
 
-  public Conta(String numero, String agencia, Cliente cliente) {
+  public Conta(String numero, String agencia, Cliente cliente, BigDecimal limiteDiario) {
     this.numero = numero;
     this.agencia = agencia;
     this.cliente = cliente;
     this.saldo = BigDecimal.ZERO;
     this.bloqueada = false;
+    if (limiteDiario == null) {
+      this.limiteDiario = new BigDecimal(5000);
+    } else {
+        this.limiteDiario = limiteDiario;
+    }
 }
 }
