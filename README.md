@@ -20,6 +20,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Lombok**: Biblioteca Java que ajuda a reduzir a verbosidade do código.
 - **Maven**: Ferramenta de gerenciamento de dependências.
 - **Swagger**: Ferramenta para documentação e teste de APIs.
+- **Docker** : Ferramente para rodar a API dentro de um container.
 
 ## Instalação e Execução
 
