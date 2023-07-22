@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.models;
+package com.di2win.bancodigital.model;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,14 +29,15 @@ public class Cliente {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(nullable = false, length = 100)
+  @Column(nullable = false, length = 100, name = "nome")
   private String nome;
 
-  @Column(nullable = false, length = 100, unique = true)
+  @Column(nullable = false, length = 100, unique = true, name = "cpf")
   @NotBlank(message = "O CPF é obrigatório")
   private String cpf;
 
   @DateTimeFormat(pattern = "dd/MM/yyyy")
+  @Column(nullable = false, name = "data_nascimento")
   private LocalDate dataNascimento;
 
   @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
