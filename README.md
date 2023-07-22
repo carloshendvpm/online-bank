@@ -19,7 +19,6 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Spring Data JPA**: Usado para persistência de dados e facilitar operações de CRUD.
 - **Lombok**: Biblioteca Java que ajuda a reduzir a verbosidade do código.
 - **Maven**: Ferramenta de gerenciamento de dependências.
-- **MySQL**: Sistema de gerenciamento de banco de dados relacional utilizado para persistir os dados da aplicação.
 - **Swagger**: Ferramenta para documentação e teste de APIs.
 
 ## Instalação e Execução
