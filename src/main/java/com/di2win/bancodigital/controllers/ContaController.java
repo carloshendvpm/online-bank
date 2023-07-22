@@ -34,7 +34,7 @@ public class ContaController {
     @PostMapping
     public ResponseEntity<Conta> createConta(@RequestBody ContaDTO contaDTO) {
       Conta novaConta = new Conta();
-      Conta conta = contaService.createConta(novaConta, contaDTO.getCpf());
+      Conta conta = contaService.createConta(novaConta, contaDTO.getCpf(), contaDTO.getLimiteDiario());
       return ResponseEntity.ok(conta);
     }
 
@@ -63,7 +63,12 @@ public class ContaController {
     }
 
     @GetMapping("/{id}/extrato")
-    public List<Transacao> getExtrato(@PathVariable Long id, @DateTimeFormat(pattern = "dd/MM/yyyy") @RequestParam LocalDate inicio, @DateTimeFormat(pattern = "dd/MM/yyyy") @RequestParam LocalDate fim) {
-      return transacaoService.getExtrato(id, inicio, fim);
+    public List<Transacao> getExtrato(@PathVariable Long id) {
+        return transacaoService.getExtrato(id);
+    }
+
+    @GetMapping("/{id}/extratoPorPeriodo")
+    public List<Transacao> getExtratoPorPeriodo(@PathVariable Long id, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate inicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) {
+      return transacaoService.getExtratoPorPeriodo(id, inicio, fim);
     }
 }
