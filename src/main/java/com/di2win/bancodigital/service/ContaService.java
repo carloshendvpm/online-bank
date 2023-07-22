@@ -3,6 +3,7 @@ package com.di2win.bancodigital.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,12 @@ public class ContaService implements IContaService {
 
   private final Random random = new Random();
 
-  public Conta create(Conta conta, String cpf, BigDecimal limiteDiario) {
+  public List<Conta> getAllContas() {
+    return contaRepository.findAll();
+  }
+  
+
+  public Conta create(String cpf, BigDecimal limiteDiario) {
     Cliente cliente = obterCliente(cpf);
     String numeroConta = gerarNumeroUnico(NUMERO_CONTA_TAMANHO);
     String agencia = gerarNumeroUnico(NUMERO_AGENCIA_TAMANHO);
