@@ -34,6 +34,9 @@ Siga os seguintes passos:
 4. Execute o comando `mvn spring-boot:run` para iniciar a aplicação
 5. A aplicação estará disponível em `http://localhost:8080`
 
+## Testes
+Para executar os testes do projeto, utilize o seguinte comando: `mvn test`
+
 ## API Endpoints
 
 Os endpoints da API estão documentados através do Swagger e podem ser acessados em `http://localhost:8080/swagger-ui.html` quando a aplicação estiver rodando.
