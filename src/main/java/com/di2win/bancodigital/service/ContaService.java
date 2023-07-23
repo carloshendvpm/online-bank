@@ -36,11 +36,13 @@ public class ContaService implements IContaService {
 
   private final Random random = new Random();
 
+  @Override
   public List<Conta> getAllContas() {
     return contaRepository.findAll();
   }
   
 
+  @Override
   public Conta create(String cpf, BigDecimal limiteDiario) {
     Cliente cliente = obterCliente(cpf);
     String numeroConta = gerarNumeroUnico(NUMERO_CONTA_TAMANHO);
@@ -86,10 +88,12 @@ public class ContaService implements IContaService {
     return numero.toString();
   }
 
+  @Override
   public Conta find(Long id) {
     return contaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Conta não encontrada."));
   }
 
+  @Override
   public Conta depositar(Long id, BigDecimal valor) {
     Conta conta = find(id);
     if (conta.isBloqueada()) {
@@ -111,6 +115,7 @@ public class ContaService implements IContaService {
     return contaAtualizada;
   }
 
+  @Override
   public Conta sacar(Long id, BigDecimal valor) {
     Conta conta = find(id);
     if (conta.isBloqueada()) {
@@ -145,6 +150,7 @@ public class ContaService implements IContaService {
     return contaAtualizada;
   }
 
+  @Override
   public void bloquear(Long id) {
     Conta conta = find(id);
     conta.setBloqueada(true);

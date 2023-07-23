@@ -21,7 +21,7 @@ public class TransacaoService implements ITransacaoService {
   private TransacaoRepository transacaoRepository;
 
   @Autowired
-  private ContaService contaService;
+  private IContaService contaService;
 
   private void validarConta(Long contaId) {
     Conta conta = contaService.find(contaId);
@@ -30,18 +30,21 @@ public class TransacaoService implements ITransacaoService {
     }
   }
 
-
+  @Override
   public List<Transacao> getExtrato(Long contaId) {
       validarConta(contaId);
       return transacaoRepository.findByContaId(contaId);
   }
 
+  @Override
   public List<Transacao> getExtratoPorPeriodo(Long contaId, LocalDate inicio, LocalDate fim) {
     validarConta(contaId);
     LocalDateTime inicioDoDia = inicio.atStartOfDay();
     LocalDateTime fimDoDia = fim.atTime(23, 59, 59);
     return transacaoRepository.findByContaIdAndDataHoraBetween(contaId, inicioDoDia, fimDoDia);
-}
+  } 
+
+  @Override
   public BigDecimal getTotalSaquesDoDia(Long contaId) {
       validarConta(contaId);
       LocalDateTime inicioDoDia = LocalDate.now().atStartOfDay();

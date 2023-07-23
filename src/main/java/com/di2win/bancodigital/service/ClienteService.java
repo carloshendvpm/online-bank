@@ -15,6 +15,7 @@ public class ClienteService implements IClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Override
     public Cliente create(Cliente cliente) {
         String cpf = cliente.getCpf() != null ? cliente.getCpf().replaceAll("[.-]", "") : null;
         if (!cpfValido(cpf) || clienteRepository.findByCpf(cpf) != null) {
@@ -26,7 +27,8 @@ public class ClienteService implements IClienteService {
     private boolean cpfValido(String cpf) {
         return cpf != null && CpfValidator.isCPF(cpf);
     }
-
+    
+    @Override
     public List<Cliente> getAll() {
         return clienteRepository.findAll();
     }

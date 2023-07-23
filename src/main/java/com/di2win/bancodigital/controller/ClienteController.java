@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.di2win.bancodigital.dtos.ClienteDTO;
 import com.di2win.bancodigital.model.Cliente;
-import com.di2win.bancodigital.service.ClienteService;
+import com.di2win.bancodigital.service.IClienteService;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 
   @Autowired
-  private ClienteService clienteService;
+  private IClienteService clienteService;
 
   @PostMapping
   public ResponseEntity<Cliente> criarCliente(@RequestBody ClienteDTO clienteDTO) {

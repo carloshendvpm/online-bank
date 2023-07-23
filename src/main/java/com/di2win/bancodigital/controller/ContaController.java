@@ -20,17 +20,17 @@ import com.di2win.bancodigital.dtos.ContaDTO;
 import com.di2win.bancodigital.dtos.ValorTransacaoDTO;
 import com.di2win.bancodigital.model.Conta;
 import com.di2win.bancodigital.model.Transacao;
-import com.di2win.bancodigital.service.ContaService;
-import com.di2win.bancodigital.service.TransacaoService;
+import com.di2win.bancodigital.service.IContaService;
+import com.di2win.bancodigital.service.ITransacaoService;
 
 @RestController
 @RequestMapping("/contas")
 public class ContaController {
 
   @Autowired
-  private ContaService contaService;
+  private IContaService contaService;
   @Autowired
-  private TransacaoService transacaoService;
+  private ITransacaoService transacaoService;
 
   @GetMapping
   public ResponseEntity<List<ContaDTO>> getAllContas() {
