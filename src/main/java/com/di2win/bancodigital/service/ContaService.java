@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.di2win.bancodigital.enums.TipoTransacao;
-import com.di2win.bancodigital.exception.ClienteNotFoundException;
+import com.di2win.bancodigital.exception.NotFoundException;
 import com.di2win.bancodigital.exception.SaldoInsuficienteException;
 import com.di2win.bancodigital.model.Cliente;
 import com.di2win.bancodigital.model.Conta;
@@ -56,7 +56,7 @@ public class ContaService implements IContaService {
   private Cliente obterCliente(String cpf) {
     Cliente cliente = clienteRepository.findByCpf(cpf);
     if (cliente == null) {
-      throw new ClienteNotFoundException("Não foi encontrado um cliente com o CPF fornecido.");
+      throw new NotFoundException("Não foi encontrado um cliente com o CPF fornecido.");
     }
     return cliente;
   }
