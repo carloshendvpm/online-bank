@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.di2win.bancodigital.enums.TipoTransacao;
+import com.di2win.bancodigital.exception.ContaBloqueadaException;
+import com.di2win.bancodigital.exception.LimiteExcedidoException;
 import com.di2win.bancodigital.exception.NotFoundException;
 import com.di2win.bancodigital.exception.SaldoInsuficienteException;
 import com.di2win.bancodigital.model.Cliente;
@@ -90,14 +92,14 @@ public class ContaService implements IContaService {
 
   @Override
   public Conta find(Long id) {
-    return contaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Conta não encontrada."));
+    return contaRepository.findById(id).orElseThrow(() -> new NotFoundException("Conta não encontrada."));
   }
 
   @Override
   public Conta depositar(Long id, BigDecimal valor) {
     Conta conta = find(id);
     if (conta.isBloqueada()) {
-      throw new IllegalArgumentException("Conta está bloqueada.");
+      throw new ContaBloqueadaException("Conta está bloqueada.");
     }
 
     conta.setSaldo(conta.getSaldo().add(valor));
@@ -119,7 +121,7 @@ public class ContaService implements IContaService {
   public Conta sacar(Long id, BigDecimal valor) {
     Conta conta = find(id);
     if (conta.isBloqueada()) {
-      throw new IllegalArgumentException("Conta está bloqueada.");
+      throw new ContaBloqueadaException("Conta está bloqueada.");
     }
     if (conta.getSaldo().compareTo(valor) < 0) {
       throw new SaldoInsuficienteException("Saldo insuficiente para saque.");
@@ -133,7 +135,7 @@ public class ContaService implements IContaService {
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     if (totalSaquesHoje.add(valor).compareTo(conta.getLimiteDiario()) > 0) {
-      throw new IllegalArgumentException("Limite diário excedido para saques.");
+      throw new LimiteExcedidoException("Limite diário excedido para saques.");
     }
     conta.setSaldo(conta.getSaldo().subtract(valor));
     Conta contaAtualizada = contaRepository.save(conta);

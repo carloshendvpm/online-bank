@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.di2win.bancodigital.exception.ClienteExistenteException;
+import com.di2win.bancodigital.exception.InvalidException;
 import com.di2win.bancodigital.model.Cliente;
 import com.di2win.bancodigital.repository.ClienteRepository;
 import com.di2win.bancodigital.utils.CpfValidator;
@@ -18,8 +20,11 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente create(Cliente cliente) {
         String cpf = cliente.getCpf() != null ? cliente.getCpf().replaceAll("[.-]", "") : null;
-        if (!cpfValido(cpf) || clienteRepository.findByCpf(cpf) != null) {
-            throw new IllegalArgumentException("CPF inválido ou já existente na base de dados.");
+        if (!cpfValido(cpf)) {
+            throw new InvalidException("CPF inválido.");
+        }   
+        if (clienteRepository.findByCpf(cpf) != null) {
+            throw new ClienteExistenteException("CPF já existente na base de dados.");
         }
         return clienteRepository.save(cliente);
     }
