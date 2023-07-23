@@ -37,5 +37,7 @@ Siga os seguintes passos:
 ## API Endpoints
 
 Os endpoints da API estão documentados através do Swagger e podem ser acessados em `http://localhost:8080/swagger-ui.html` quando a aplicação estiver rodando.
+![image](https://github.com/carloshendvpm/online-bank/assets/80500801/703322aa-5a28-4fc2-b5dc-d755cf84500c)
+
 
 
