@@ -3,8 +3,7 @@ package com.di2win.bancodigital.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -38,8 +37,8 @@ public class Cliente {
   @NotBlank(message = "O CPF é obrigatório")
   private String cpf;
 
-  @DateTimeFormat(pattern = "dd/MM/yyyy")
   @Column(name = "data_nascimento")
+  @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate dataNascimento;
 
   @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
