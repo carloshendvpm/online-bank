@@ -1,4 +1,5 @@
 # Banco Digital (Desafio di2win)
+![CI](https://github.com/carloshendvpm/online-bank/actions/workflows/CI.yml/badge.svg)
 
 Este é um projeto simples que implementa uma API RESTful para simular algumas funcionalidades básicas de um banco digital. 
 
@@ -21,6 +22,8 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Maven**: Ferramenta de gerenciamento de dependências.
 - **Swagger**: Ferramenta para documentação e teste de APIs.
 - **Docker** : Ferramente para rodar a API dentro de um container.
+- **GitHub Actions**: CI
+- **Junit/Mockito**: Testes e mocks
 
 ## Instalação e Execução
 
@@ -36,6 +39,16 @@ Siga os seguintes passos:
 
 ## Testes
 Para executar os testes do projeto, utilize o seguinte comando: `mvn test`
+
+## Integração Contínua (CI)
+Para garantir a qualidade do código, utilizamos o Github Actions para executar um pipeline de CI sempre que um novo código é empurrado para o repositório. Este pipeline executa os seguintes passos:
+1. Faz o checkout do código.
+2. Configura o JDK 17.
+3. Faz o cache dos pacotes Maven para acelerar futuras execuções.
+4. Compila o projeto com o Maven.
+5. Executa todos os testes do projeto.
+   
+> Você pode ver os resultados da execução do pipeline na aba "Actions" do repositório no Github.
 
 ## API Endpoints
 
