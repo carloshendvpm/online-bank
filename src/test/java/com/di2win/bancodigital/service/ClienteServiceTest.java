@@ -18,6 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.di2win.bancodigital.exception.ClienteExistenteException;
+import com.di2win.bancodigital.exception.InvalidException;
 import com.di2win.bancodigital.model.Cliente;
 import com.di2win.bancodigital.repository.ClienteRepository;
 
@@ -63,7 +65,7 @@ public class ClienteServiceTest {
     Cliente cliente = new Cliente();
     cliente.setCpf("123.456.789-10"); // CPF inválido para teste
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(InvalidException.class, () -> {
       clienteService.create(cliente);
     });
   }
@@ -75,7 +77,7 @@ public class ClienteServiceTest {
 
     when(clienteRepository.findByCpf(any(String.class))).thenReturn(cliente);
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(ClienteExistenteException.class, () -> {
       clienteService.create(cliente);
     });
   }
@@ -85,7 +87,7 @@ public class ClienteServiceTest {
     Cliente cliente = new Cliente();
     cliente.setCpf(null);
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(InvalidException.class, () -> {
       clienteService.create(cliente);
     });
   }
@@ -95,7 +97,7 @@ public class ClienteServiceTest {
     Cliente cliente = new Cliente();
     cliente.setCpf("");
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(InvalidException.class, () -> {
       clienteService.create(cliente);
     });
   }
@@ -105,7 +107,7 @@ public class ClienteServiceTest {
     Cliente cliente = new Cliente();
     cliente.setCpf("abc.def.ghi-jk");
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(InvalidException.class, () -> {
       clienteService.create(cliente);
     });
   }
