@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.controllers;
+package com.di2win.bancodigital.controller;
 
 import java.util.List;
 

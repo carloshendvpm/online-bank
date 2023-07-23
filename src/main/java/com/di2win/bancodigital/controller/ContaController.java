@@ -1,4 +1,4 @@
-package com.di2win.bancodigital.controllers;
+package com.di2win.bancodigital.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -88,8 +88,8 @@ public class ContaController {
 
   @GetMapping("/{id}/extratoPorPeriodo")
   public List<Transacao> getExtratoPorPeriodo(@PathVariable Long id,
-      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate inicio,
-      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) {
+      @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate inicio,
+      @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate fim) {
     return transacaoService.getExtratoPorPeriodo(id, inicio, fim);
   }
 }
