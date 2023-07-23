@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.di2win.bancodigital.enums.TipoTransacao;
+import com.di2win.bancodigital.exception.ContaBloqueadaException;
 import com.di2win.bancodigital.model.Conta;
 import com.di2win.bancodigital.model.Transacao;
 import com.di2win.bancodigital.repository.TransacaoRepository;
@@ -26,7 +27,7 @@ public class TransacaoService implements ITransacaoService {
   private void validarConta(Long contaId) {
     Conta conta = contaService.find(contaId);
     if (conta.isBloqueada()) {
-      throw new IllegalArgumentException("A conta está bloqueada e não pode consultar o extrato.");
+      throw new ContaBloqueadaException("A conta está bloqueada e não pode consultar o extrato.");
     }
   }
 
