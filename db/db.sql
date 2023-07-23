@@ -1,0 +1,25 @@
+CREATE TABLE Cliente (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  cpf VARCHAR(14) NOT NULL UNIQUE,
+  dataNascimento DATE NOT NULL
+);
+
+CREATE TABLE Conta (
+  id SERIAL PRIMARY KEY,
+  numero VARCHAR(20) NOT NULL,
+  agencia VARCHAR(10) NOT NULL,
+  saldo NUMERIC(15, 2) NOT NULL DEFAULT 0.00,
+  limiteDiario NUMERIC(15, 2) NOT NULL,
+  cliente_id INT,
+  FOREIGN KEY (cliente_id) REFERENCES Cliente(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Transacao (
+  id SERIAL PRIMARY KEY,
+  dataHora TIMESTAMP NOT NULL,
+  valor NUMERIC(15, 2) NOT NULL,
+  tipo VARCHAR(10) CHECK (tipo IN ('DEPOSITO', 'SAQUE')),
+  conta_id INT,
+  FOREIGN KEY (conta_id) REFERENCES Conta(id) ON DELETE CASCADE
+);
