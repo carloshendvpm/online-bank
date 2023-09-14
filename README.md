@@ -1,4 +1,4 @@
-# Banco Digital (Desafio di2win)
+# Banco Digital
 ![CI](https://github.com/carloshendvpm/online-bank/actions/workflows/CI.yml/badge.svg)
 
 Este é um projeto simples que implementa uma API RESTful para simular algumas funcionalidades básicas de um banco digital. 
